@@ -18,7 +18,7 @@ fn parse(input: &str) -> anyhow::Result<Parsed> {
     let mut split = input.split("\n\n");
 
     let rules_string = split.next().unwrap();
-    let update_string = split.next().unwrap();
+    let updates_string = split.next().unwrap();
 
     let mut rules: HashMap<usize, Vec<_>> = HashMap::new();
 
@@ -33,10 +33,10 @@ fn parse(input: &str) -> anyhow::Result<Parsed> {
 
     let mut updates = Vec::new();
 
-    for update in update_string.lines() {
+    for update_string in updates_string.lines() {
         let mut pages: Vec<usize> = Vec::new();
 
-        for page in update.split(',') {
+        for page in update_string.split(',') {
             pages.push(page.parse()?);
         }
 
