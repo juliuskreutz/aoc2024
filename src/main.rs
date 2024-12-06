@@ -3,6 +3,7 @@ mod day02;
 mod day03;
 mod day04;
 mod day05;
+mod day06;
 
 fn main() -> anyhow::Result<()> {
     day01::solve()?;
@@ -10,6 +11,7 @@ fn main() -> anyhow::Result<()> {
     day03::solve()?;
     day04::solve()?;
     day05::solve()?;
+    day06::solve()?;
 
     Ok(())
 }
