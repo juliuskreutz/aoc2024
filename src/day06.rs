@@ -68,53 +68,83 @@ pub fn part2(input: &str) -> anyhow::Result<String> {
         }
     }
 
-    let mut count = 0;
+    let mut direction = (0, -1);
 
-    for (y, row) in grid.iter().enumerate() {
-        for (x, c) in row.iter().enumerate() {
-            if *c == '.' {
-                let mut grid = grid.clone();
-                grid[y][x] = '#';
+    let mut visited = HashSet::new();
+    visited.insert((guard.0, guard.1));
 
-                let mut guard = guard;
-                let mut direction = (0, -1);
+    let mut obstacles = HashSet::new();
 
-                let mut visited = HashSet::new();
-                visited.insert((guard, direction));
+    loop {
+        let next = ((guard.0 + direction.0), (guard.1 + direction.1));
 
-                loop {
-                    let next = ((guard.0 + direction.0), (guard.1 + direction.1));
+        if next.0 < 0
+            || next.1 < 0
+            || next.0 as usize >= grid[0].len()
+            || next.1 as usize >= grid.len()
+        {
+            break;
+        }
 
-                    if next.0 < 0
-                        || next.1 < 0
-                        || next.0 as usize >= grid[0].len()
-                        || next.1 as usize >= grid.len()
-                    {
-                        break;
-                    }
+        if grid[next.1 as usize][next.0 as usize] == '#' {
+            direction = match direction {
+                (0, -1) => (1, 0),
+                (1, 0) => (0, 1),
+                (0, 1) => (-1, 0),
+                (-1, 0) => (0, -1),
+                _ => unreachable!(),
+            };
 
-                    if grid[next.1 as usize][next.0 as usize] == '#' {
-                        direction = match direction {
-                            (0, -1) => (1, 0),
-                            (1, 0) => (0, 1),
-                            (0, 1) => (-1, 0),
-                            (-1, 0) => (0, -1),
-                            _ => unreachable!(),
-                        };
-                    } else {
-                        guard = next;
-                    }
+            continue;
+        }
 
-                    if visited.contains(&(guard, direction)) {
-                        count += 1;
-                        break;
-                    }
+        let obstacle = next;
 
-                    visited.insert((guard, direction));
+        if !obstacles.contains(&obstacle) && !visited.contains(&obstacle) {
+            let mut guard = guard;
+            let mut direction = direction;
+
+            let mut visited = HashSet::new();
+            visited.insert((guard, direction));
+
+            let b = loop {
+                let next = ((guard.0 + direction.0), (guard.1 + direction.1));
+
+                if next.0 < 0
+                    || next.1 < 0
+                    || next.0 as usize >= grid[0].len()
+                    || next.1 as usize >= grid.len()
+                {
+                    break false;
                 }
+
+                if grid[next.1 as usize][next.0 as usize] == '#' || next == obstacle {
+                    direction = match direction {
+                        (0, -1) => (1, 0),
+                        (1, 0) => (0, 1),
+                        (0, 1) => (-1, 0),
+                        (-1, 0) => (0, -1),
+                        _ => unreachable!(),
+                    };
+                } else {
+                    guard = next;
+                }
+
+                if visited.contains(&(guard, direction)) {
+                    break true;
+                }
+
+                visited.insert((guard, direction));
+            };
+
+            if b {
+                obstacles.insert(next);
             }
         }
+
+        guard = next;
+        visited.insert(guard);
     }
 
-    Ok(count.to_string())
+    Ok(obstacles.len().to_string())
 }
