@@ -6,6 +6,7 @@ mod day05;
 mod day06;
 mod day07;
 mod day08;
+mod day09;
 
 fn main() -> anyhow::Result<()> {
     let args: Vec<_> = std::env::args().collect();
@@ -19,6 +20,7 @@ fn main() -> anyhow::Result<()> {
         Some(6) => day06::solve()?,
         Some(7) => day07::solve()?,
         Some(8) => day08::solve()?,
+        Some(9) => day09::solve()?,
         _ => {
             day01::solve()?;
             day02::solve()?;
@@ -28,6 +30,7 @@ fn main() -> anyhow::Result<()> {
             day06::solve()?;
             day07::solve()?;
             day08::solve()?;
+            day09::solve()?;
         }
     }
 
