@@ -7,6 +7,7 @@ pub fn solve() -> anyhow::Result<()> {
     Ok(())
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part1(input: &str) -> anyhow::Result<String> {
     let numbers: Vec<_> = input
         .trim()
@@ -56,6 +57,7 @@ pub fn part1(input: &str) -> anyhow::Result<String> {
     Ok(sum.to_string())
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part2(input: &str) -> anyhow::Result<String> {
     let numbers: Vec<_> = input
         .trim()

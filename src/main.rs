@@ -8,10 +8,28 @@ mod day07;
 mod day08;
 mod day09;
 
-fn main() -> anyhow::Result<()> {
-    let args: Vec<_> = std::env::args().collect();
+use clap::Parser;
 
-    match args.get(1).and_then(|s| s.parse::<usize>().ok()) {
+#[derive(Parser)]
+#[command()]
+struct Args {
+    #[arg()]
+    day: Option<usize>,
+
+    #[arg(short, long)]
+    trace: bool,
+}
+
+fn main() -> anyhow::Result<()> {
+    let args = Args::parse();
+
+    if args.trace {
+        tracing_subscriber::fmt()
+            .with_span_events(tracing_subscriber::fmt::format::FmtSpan::CLOSE)
+            .init();
+    }
+
+    match args.day {
         Some(1) => day01::solve()?,
         Some(2) => day02::solve()?,
         Some(3) => day03::solve()?,

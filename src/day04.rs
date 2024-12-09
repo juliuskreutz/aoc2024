@@ -14,6 +14,7 @@ fn pad<T: Clone>(v: &mut Vec<T>, t: T, padding: usize) {
     }
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part1(input: &str) -> anyhow::Result<String> {
     let padding = 3;
 
@@ -81,6 +82,7 @@ pub fn part1(input: &str) -> anyhow::Result<String> {
     Ok(count.to_string())
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part2(input: &str) -> anyhow::Result<String> {
     let padding = 2;
 

@@ -7,6 +7,27 @@ pub fn solve() -> anyhow::Result<()> {
     Ok(())
 }
 
+struct Parsed {
+    reports: Vec<Vec<i32>>,
+}
+
+fn parse(input: &str) -> anyhow::Result<Parsed> {
+    let mut reports = Vec::new();
+
+    for line in input.lines() {
+        let mut report = Vec::new();
+
+        for s in line.split_whitespace() {
+            let level: i32 = s.parse()?;
+            report.push(level);
+        }
+
+        reports.push(report);
+    }
+
+    Ok(Parsed { reports })
+}
+
 fn check(report: &[i32]) -> bool {
     let inc = report[0] < report[1];
 
@@ -23,19 +44,9 @@ fn check(report: &[i32]) -> bool {
     true
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part1(input: &str) -> anyhow::Result<String> {
-    let mut reports = Vec::new();
-
-    for line in input.lines() {
-        let mut report = Vec::new();
-
-        for s in line.split_whitespace() {
-            let level: i32 = s.parse()?;
-            report.push(level);
-        }
-
-        reports.push(report);
-    }
+    let Parsed { reports } = parse(input)?;
 
     let mut count = 0;
 
@@ -48,19 +59,9 @@ pub fn part1(input: &str) -> anyhow::Result<String> {
     Ok(count.to_string())
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part2(input: &str) -> anyhow::Result<String> {
-    let mut reports = Vec::new();
-
-    for line in input.lines() {
-        let mut report = Vec::new();
-
-        for s in line.split_whitespace() {
-            let level: i32 = s.parse()?;
-            report.push(level);
-        }
-
-        reports.push(report);
-    }
+    let Parsed { reports } = parse(input)?;
 
     let mut count = 0;
 

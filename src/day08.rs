@@ -9,6 +9,7 @@ pub fn solve() -> anyhow::Result<()> {
     Ok(())
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part1(input: &str) -> anyhow::Result<String> {
     let grid: Vec<Vec<_>> = input.lines().map(|s| s.chars().collect()).collect();
 
@@ -51,6 +52,7 @@ pub fn part1(input: &str) -> anyhow::Result<String> {
     Ok(antinodes.len().to_string())
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part2(input: &str) -> anyhow::Result<String> {
     let grid: Vec<Vec<_>> = input.lines().map(|s| s.chars().collect()).collect();
 

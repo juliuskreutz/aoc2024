@@ -9,7 +9,12 @@ pub fn solve() -> anyhow::Result<()> {
     Ok(())
 }
 
-pub fn part1(input: &str) -> anyhow::Result<String> {
+struct Parsed {
+    left: Vec<i32>,
+    right: Vec<i32>,
+}
+
+fn parse(input: &str) -> anyhow::Result<Parsed> {
     let mut left = Vec::new();
     let mut right = Vec::new();
 
@@ -23,6 +28,16 @@ pub fn part1(input: &str) -> anyhow::Result<String> {
         right.push(r);
     }
 
+    Ok(Parsed { left, right })
+}
+
+#[tracing::instrument(skip_all)]
+pub fn part1(input: &str) -> anyhow::Result<String> {
+    let Parsed {
+        mut left,
+        mut right,
+    } = parse(input)?;
+
     left.sort();
     right.sort();
 
@@ -35,24 +50,19 @@ pub fn part1(input: &str) -> anyhow::Result<String> {
     Ok(sum.to_string())
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part2(input: &str) -> anyhow::Result<String> {
-    let mut list = Vec::new();
-    let mut counts: HashMap<usize, usize> = HashMap::new();
+    let Parsed { left, right } = parse(input)?;
 
-    for line in input.lines() {
-        let mut s = line.split_whitespace();
+    let mut counts: HashMap<_, i32> = HashMap::new();
 
-        let l: usize = s.next().unwrap().parse()?;
-        let r: usize = s.next().unwrap().parse()?;
-
-        list.push(l);
-
+    for r in right {
         *counts.entry(r).or_default() += 1;
     }
 
     let mut score = 0;
 
-    for i in list {
+    for i in left {
         score += i * counts.get(&i).copied().unwrap_or_default();
     }
 

@@ -71,6 +71,7 @@ fn check(pages: &[usize], rules: &HashMap<usize, Vec<usize>>) -> bool {
     true
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part1(input: &str) -> anyhow::Result<String> {
     let Parsed { rules, updates } = parse(input)?;
 
@@ -86,6 +87,7 @@ pub fn part1(input: &str) -> anyhow::Result<String> {
     Ok(sum.to_string())
 }
 
+#[tracing::instrument(skip_all)]
 pub fn part2(input: &str) -> anyhow::Result<String> {
     let Parsed { rules, updates } = parse(input)?;
 
