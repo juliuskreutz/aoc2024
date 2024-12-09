@@ -100,7 +100,10 @@ pub fn part2(input: &str) -> anyhow::Result<String> {
 
         let obstacle = next;
 
-        if !obstacles.contains(&obstacle) && !visited.contains(&obstacle) {
+        if grid[obstacle.1 as usize][obstacle.0 as usize] == '.'
+            && !visited.contains(&obstacle)
+            && !obstacles.contains(&obstacle)
+        {
             let mut guard = guard;
             let mut direction = direction;
 
@@ -138,7 +141,7 @@ pub fn part2(input: &str) -> anyhow::Result<String> {
             };
 
             if b {
-                obstacles.insert(next);
+                obstacles.insert(obstacle);
             }
         }
 
