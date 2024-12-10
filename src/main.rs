@@ -7,6 +7,7 @@ mod day06;
 mod day07;
 mod day08;
 mod day09;
+mod day10;
 
 use clap::Parser;
 
@@ -39,6 +40,7 @@ fn main() -> anyhow::Result<()> {
         Some(7) => day07::solve()?,
         Some(8) => day08::solve()?,
         Some(9) => day09::solve()?,
+        Some(10) => day10::solve()?,
         _ => {
             day01::solve()?;
             day02::solve()?;
@@ -49,6 +51,7 @@ fn main() -> anyhow::Result<()> {
             day07::solve()?;
             day08::solve()?;
             day09::solve()?;
+            day10::solve()?;
         }
     }
 
