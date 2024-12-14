@@ -49,6 +49,23 @@ fn parse(input: &str) -> anyhow::Result<Parsed> {
     Ok(Parsed { machines })
 }
 
+fn calculate_minimum(a_x: i64, a_y: i64, b_x: i64, b_y: i64, n_x: i64, n_y: i64) -> Option<i64> {
+    // cramer
+    let det = a_x * b_y - a_y * b_x;
+    if det == 0 {
+        return None;
+    }
+
+    let a = (n_x * b_y - n_y * b_x) / det;
+    let b = (a_x * n_y - a_y * n_x) / det;
+
+    if a_x * a + b_x * b == n_x && a_y * a + b_y * b == n_y {
+        Some(3 * a + b)
+    } else {
+        None
+    }
+}
+
 #[tracing::instrument(skip_all)]
 pub fn part1(input: &str) -> anyhow::Result<String> {
     let Parsed { machines } = parse(input)?;
@@ -67,23 +84,6 @@ pub fn part1(input: &str) -> anyhow::Result<String> {
     }
 
     Ok(sum.to_string())
-}
-
-fn calculate_minimum(a_x: i64, a_y: i64, b_x: i64, b_y: i64, n_x: i64, n_y: i64) -> Option<i64> {
-    // cramer
-    let det = a_x * b_y - a_y * b_x;
-    if det == 0 {
-        return None;
-    }
-
-    let a = (n_x * b_y - n_y * b_x) / det;
-    let b = (a_x * n_y - a_y * n_x) / det;
-
-    if a_x * a + b_x * b == n_x && a_y * a + b_y * b == n_y {
-        Some(3 * a + b)
-    } else {
-        None
-    }
 }
 
 #[tracing::instrument(skip_all)]

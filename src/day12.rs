@@ -95,17 +95,17 @@ pub fn part2(input: &str) -> anyhow::Result<String> {
 
             let mut stack = vec![(x, y)];
 
-            while let Some((x1, y1)) = stack.pop() {
-                if visited.contains(&(x1, y1)) {
+            while let Some((x, y)) = stack.pop() {
+                if visited.contains(&(x, y)) {
                     continue;
                 }
-                visited.insert((x1, y1));
+                visited.insert((x, y));
 
                 area += 1;
 
                 for (ox, oy) in [(1, 0), (0, 1), (-1, 0), (0, -1)] {
-                    let x2 = x1 + ox;
-                    let y2 = y1 + oy;
+                    let x2 = x + ox;
+                    let y2 = y + oy;
 
                     if (0..grid[0].len() as i32).contains(&x2)
                         && (0..grid.len() as i32).contains(&y2)
@@ -113,7 +113,7 @@ pub fn part2(input: &str) -> anyhow::Result<String> {
                     {
                         stack.push((x2, y2));
                     } else {
-                        direction_sides.entry((ox, oy)).or_default().push((x1, y1));
+                        direction_sides.entry((ox, oy)).or_default().push((x, y));
                     }
                 }
             }
