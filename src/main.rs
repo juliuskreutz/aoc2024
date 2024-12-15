@@ -12,6 +12,7 @@ mod day11;
 mod day12;
 mod day13;
 mod day14;
+mod day15;
 
 use clap::Parser;
 
@@ -34,38 +35,36 @@ fn main() -> anyhow::Result<()> {
             .init();
     }
 
-    match args.day {
-        Some(1) => day01::solve()?,
-        Some(2) => day02::solve()?,
-        Some(3) => day03::solve()?,
-        Some(4) => day04::solve()?,
-        Some(5) => day05::solve()?,
-        Some(6) => day06::solve()?,
-        Some(7) => day07::solve()?,
-        Some(8) => day08::solve()?,
-        Some(9) => day09::solve()?,
-        Some(10) => day10::solve()?,
-        Some(11) => day11::solve()?,
-        Some(12) => day12::solve()?,
-        Some(13) => day13::solve()?,
-        Some(14) => day14::solve()?,
+    run(args.day)
+}
+
+#[tracing::instrument]
+fn run(day: Option<usize>) -> anyhow::Result<()> {
+    let days = [
+        day01::solve,
+        day02::solve,
+        day03::solve,
+        day04::solve,
+        day05::solve,
+        day06::solve,
+        day07::solve,
+        day08::solve,
+        day09::solve,
+        day10::solve,
+        day11::solve,
+        day12::solve,
+        day13::solve,
+        day14::solve,
+        day15::solve,
+    ];
+
+    match day {
+        Some(i) if i - 1 < days.len() => days[i - 1](),
         _ => {
-            day01::solve()?;
-            day02::solve()?;
-            day03::solve()?;
-            day04::solve()?;
-            day05::solve()?;
-            day06::solve()?;
-            day07::solve()?;
-            day08::solve()?;
-            day09::solve()?;
-            day10::solve()?;
-            day11::solve()?;
-            day12::solve()?;
-            day13::solve()?;
-            day14::solve()?;
+            for day in days {
+                day()?;
+            }
+            Ok(())
         }
     }
-
-    Ok(())
 }
