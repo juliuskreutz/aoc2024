@@ -14,6 +14,7 @@ mod day13;
 mod day14;
 mod day15;
 mod day16;
+mod day17;
 
 use clap::Parser;
 
@@ -58,6 +59,7 @@ fn run(day: Option<usize>) -> anyhow::Result<()> {
         day14::solve,
         day15::solve,
         day16::solve,
+        day17::solve,
     ];
 
     match day {
